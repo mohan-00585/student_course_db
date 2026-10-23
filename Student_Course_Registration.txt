@@ -1,0 +1,242 @@
+                                                       Student_Course_Registration
+
+create database student_course_registration;
+use student_course_registration;
+
+create table students (
+    student_id int primary key,
+    student_name varchar(50) not null,
+    gender varchar(10) not null,
+    date_of_birth date not null,
+    phone varchar(15) not null unique,
+    email varchar(100) unique,
+    city varchar(50) not null,
+    check (gender in ('Male', 'Female'))
+);
+
+create table courses (
+    course_id int primary key,
+    course_name varchar(100) not null unique,
+    category varchar(50) not null,
+    duration_days int not null check (duration_days > 0),
+    course_fee decimal(10,2) not null check (course_fee >= 0)
+);
+
+create table enrollments (
+    enrollment_id int primary key,
+    student_id int not null,
+    course_id int not null,
+    enrollment_date date not null,
+    fee_paid decimal(10,2) not null default 0 check (fee_paid >= 0),
+    score decimal(5,2) check (score between 0 and 100),
+    enrollment_status varchar(15) not null default 'Enrolled',
+    foreign key (student_id) references students(student_id),
+    foreign key (course_id) references courses(course_id),
+    unique (student_id, course_id),
+    check (enrollment_status in ('Enrolled', 'Completed', 'Dropped')),
+    check (enrollment_status <> 'Completed' or score is not null)
+);
+
+insert into students
+    (student_id, student_name, gender, date_of_birth, phone, email, city)
+values
+    (1, 'Arun', 'Male', '2004-01-12', '9100000001', 'student01@example.com', 'Theni'),
+    (2, 'Priya', 'Female', '2004-02-18', '9100000002', 'student02@example.com', 'Chennai'),
+    (3, 'Karthik', 'Male', '2003-08-09', '9100000003', 'student03@example.com', 'Madurai'),
+    (4, 'Divya', 'Female', '2004-04-22', '9100000004', 'student04@example.com', 'Coimbatore'),
+    (5, 'Vijay', 'Male', '2003-11-15', '9100000005', 'student05@example.com', 'Salem'),
+    (6, 'Meena', 'Female', '2004-06-30', '9100000006', 'student06@example.com', 'Theni'),
+    (7, 'Suresh', 'Male', '2003-09-05', '9100000007', 'student07@example.com', 'Chennai'),
+    (8, 'Kavya', 'Female', '2004-03-17', '9100000008', 'student08@example.com', 'Trichy'),
+    (9, 'Dinesh', 'Male', '2003-12-01', '9100000009', 'student09@example.com', 'Madurai'),
+    (10, 'Anitha', 'Female', '2004-07-14', '9100000010', 'student10@example.com', 'Erode'),
+    (11, 'Prakash', 'Male', '2003-05-26', '9100000011', 'student11@example.com', 'Coimbatore'),
+    (12, 'Nithya', 'Female', '2004-10-08', '9100000012', 'student12@example.com', 'Salem'),
+    (13, 'Saravanan', 'Male', '2003-06-19', '9100000013', 'student13@example.com', 'Theni'),
+    (14, 'Revathi', 'Female', '2004-09-23', '9100000014', 'student14@example.com', 'Trichy'),
+    (15, 'Ganesh', 'Male', '2003-01-28', '9100000015', 'student15@example.com', 'Chennai'),
+    (16, 'Deepa', 'Female', '2004-11-10', '9100000016', 'student16@example.com', 'Madurai'),
+    (17, 'Manoj', 'Male', '2003-04-16', '9100000017', 'student17@example.com', 'Erode'),
+    (18, 'Swathi', 'Female', '2004-12-03', '9100000018', 'student18@example.com', 'Coimbatore'),
+    (19, 'Bala', 'Male', '2003-07-21', '9100000019', 'student19@example.com', 'Theni'),
+    (20, 'Lakshmi', 'Female', '2004-05-11', '9100000020', 'student20@example.com', 'Salem'),
+    (21, 'Ramesh', 'Male', '2002-02-25', '9100000021', 'student21@example.com', 'Chennai'),
+    (22, 'Keerthana', 'Female', '2003-03-07', '9100000022', 'student22@example.com', 'Madurai'),
+    (23, 'Naveen', 'Male', '2002-08-13', '9100000023', 'student23@example.com', 'Coimbatore'),
+    (24, 'Janani', 'Female', '2003-09-29', '9100000024', 'student24@example.com', 'Trichy'),
+    (25, 'Ajay', 'Male', '2002-10-04', '9100000025', 'student25@example.com', 'Theni'),
+    (26, 'Pavithra', 'Female', '2003-12-18', '9100000026', 'student26@example.com', 'Erode'),
+    (27, 'Hari', 'Male', '2002-06-22', '9100000027', 'student27@example.com', 'Salem'),
+    (28, 'Shalini', 'Female', '2003-07-15', '9100000028', 'student28@example.com', 'Chennai'),
+    (29, 'Sanjay', 'Male', '2002-11-09', '9100000029', 'student29@example.com', 'Madurai'),
+    (30, 'Yamuna', 'Female', '2003-01-31', '9100000030', 'student30@example.com', 'Coimbatore'),
+    (31, 'Gokul', 'Male', '2005-04-05', '9100000031', 'student31@example.com', 'Theni'),
+    (32, 'Aishwarya', 'Female', '2005-05-20', '9100000032', 'student32@example.com', 'Trichy'),
+    (33, 'Vignesh', 'Male', '2005-02-14', '9100000033', 'student33@example.com', 'Erode'),
+    (34, 'Monisha', 'Female', '2005-08-27', '9100000034', 'student34@example.com', 'Salem'),
+    (35, 'Ashwin', 'Male', '2005-09-12', '9100000035', 'student35@example.com', 'Chennai'),
+    (36, 'Sathya', 'Female', '2005-10-19', '9100000036', 'student36@example.com', 'Madurai'),
+    (37, 'Santhosh', 'Male', '2005-03-08', '9100000037', 'student37@example.com', 'Coimbatore'),
+    (38, 'Ramya', 'Female', '2005-06-24', '9100000038', 'student38@example.com', 'Theni'),
+    (39, 'Lokesh', 'Male', '2005-07-16', '9100000039', null, 'Trichy'),
+    (40, 'Abinaya', 'Female', '2005-11-02', '9100000040', null, 'Salem');
+
+insert into courses
+    (course_id, course_name, category, duration_days, course_fee)
+values
+    (1, 'Python Programming', 'Programming', 45, 6000),
+    (2, 'Java Programming', 'Programming', 60, 8000),
+    (3, 'Web Development', 'Web', 60, 9000),
+    (4, 'SQL and Database', 'Database', 30, 5000),
+    (5, 'Data Analysis', 'Analytics', 75, 12000),
+    (6, 'Machine Learning', 'AI', 90, 15000),
+    (7, 'Embedded Systems', 'Electronics', 60, 10000),
+    (8, 'Computer Networks', 'Networking', 45, 7000),
+    (9, 'UI UX Design', 'Design', 45, 7500),
+    (10, 'Cloud Fundamentals', 'Cloud', 60, 11000);
+
+
+insert into enrollments
+    (enrollment_id, student_id, course_id, enrollment_date, fee_paid, score, enrollment_status)
+values
+    (1, 1, 1, '2026-01-05', 6000, 67, 'Completed'),
+    (2, 2, 2, '2026-01-07', 8000, 74, 'Completed'),
+    (3, 3, 3, '2026-01-09', 4500, null, 'Enrolled'),
+    (4, 4, 4, '2026-01-11', 5000, 88, 'Completed'),
+    (5, 5, 5, '2026-01-13', 12000, 95, 'Completed'),
+    (6, 6, 6, '2026-01-15', 7500, null, 'Enrolled'),
+    (7, 7, 7, '2026-01-17', 10000, 73, 'Completed'),
+    (8, 8, 8, '2026-01-19', 1750, null, 'Dropped'),
+    (9, 9, 9, '2026-01-21', 3750, null, 'Enrolled'),
+    (10, 10, 10, '2026-01-23', 11000, 94, 'Completed'),
+    (11, 11, 1, '2026-01-25', 6000, 65, 'Completed'),
+    (12, 12, 2, '2026-01-27', 4000, null, 'Enrolled'),
+    (13, 13, 3, '2026-01-29', 9000, 79, 'Completed'),
+    (14, 14, 4, '2026-01-31', 5000, 86, 'Completed'),
+    (15, 15, 5, '2026-02-02', 6000, null, 'Enrolled'),
+    (16, 16, 6, '2026-02-04', 3750, null, 'Dropped'),
+    (17, 17, 7, '2026-02-06', 10000, 71, 'Completed'),
+    (18, 18, 8, '2026-02-08', 3500, null, 'Enrolled'),
+    (19, 19, 9, '2026-02-10', 7500, 85, 'Completed'),
+    (20, 20, 10, '2026-02-12', 11000, 92, 'Completed'),
+    (21, 21, 1, '2026-02-14', 3000, null, 'Enrolled'),
+    (22, 22, 2, '2026-02-16', 8000, 70, 'Completed'),
+    (23, 23, 3, '2026-02-18', 9000, 77, 'Completed'),
+    (24, 24, 4, '2026-02-20', 1250, null, 'Dropped'),
+    (25, 25, 5, '2026-02-22', 12000, 91, 'Completed'),
+    (26, 26, 6, '2026-02-24', 15000, 62, 'Completed'),
+    (27, 27, 7, '2026-02-26', 5000, null, 'Enrolled'),
+    (28, 28, 8, '2026-02-28', 7000, 76, 'Completed'),
+    (29, 29, 9, '2026-03-02', 7500, 83, 'Completed'),
+    (30, 30, 10, '2026-03-04', 5500, null, 'Enrolled'),
+    (31, 31, 1, '2026-03-06', 6000, 61, 'Completed'),
+    (32, 32, 2, '2026-03-08', 2000, null, 'Dropped'),
+    (33, 33, 3, '2026-03-10', 4500, null, 'Enrolled'),
+    (34, 34, 4, '2026-03-12', 5000, 82, 'Completed'),
+    (35, 35, 5, '2026-03-14', 12000, 89, 'Completed'),
+    (36, 1, 5, '2026-03-16', 6000, null, 'Enrolled'),
+    (37, 2, 6, '2026-03-18', 15000, 67, 'Completed'),
+    (38, 3, 7, '2026-03-20', 10000, 74, 'Completed'),
+    (39, 4, 8, '2026-03-22', 3500, null, 'Enrolled'),
+    (40, 5, 9, '2026-03-24', 1875, null, 'Dropped'),
+    (41, 6, 10, '2026-03-26', 11000, 95, 'Completed'),
+    (42, 7, 1, '2026-03-28', 3000, null, 'Enrolled'),
+    (43, 8, 2, '2026-03-30', 8000, 73, 'Completed'),
+    (44, 9, 3, '2026-04-01', 9000, 80, 'Completed'),
+    (45, 10, 4, '2026-04-03', 2500, null, 'Enrolled'),
+    (46, 11, 5, '2026-04-05', 12000, 94, 'Completed'),
+    (47, 12, 6, '2026-04-07', 15000, 65, 'Completed'),
+    (48, 13, 7, '2026-04-09', 2500, null, 'Dropped'),
+    (49, 14, 8, '2026-04-11', 7000, 79, 'Completed'),
+    (50, 15, 9, '2026-04-13', 7500, 86, 'Completed');
+    
+select * from students;
+select * from courses;
+select * from enrollments;
+
+select student_name, gender, city from students where city in ('Theni', 'Chennai');
+
+select student_name, phone, email from students where student_name like 'A%' and email is not null;
+
+select course_name, category, course_fee from courses where course_fee between 5000 and 10000 
+order by course_fee desc;
+
+select course_name, duration_days, course_fee from courses where duration_days > 30 
+order by duration_days;
+
+select enrollment_id, enrollment_date, fee_paid, enrollment_status from enrollments where 
+enrollment_status = 'Completed' order by enrollment_date desc;
+
+select city, count(*) as total_students from students group by city order by total_students desc;
+
+select category, avg(course_fee) as avg_fee from courses group by category;
+
+select enrollment_status, count(*) as total_enrollments, sum(fee_paid) as total_fee from 
+enrollments group by enrollment_status;
+
+select s.student_name, s.city, e.enrollment_date, e.fee_paid from students s inner join 
+enrollments e on s.student_id = e.student_id;
+
+select c.course_name, c.category, e.score, e.enrollment_status from courses c inner join 
+enrollments e on c.course_id = e.course_id where e.score >= 80;
+
+select s.student_name, s.gender, c.course_name, c.category, e.enrollment_date, e.fee_paid, e.score 
+from students s join enrollments e on s.student_id = e.student_id join courses c on e.course_id = c.course_id;
+
+select s.student_name, e.enrollment_status, e.score from students s left join enrollments e
+ on s.student_id = e.student_id;
+
+select c.course_name, count(e.enrollment_id) as total_enrollments from courses c left join
+ enrollments e on c.course_id = e.course_id group by c.course_id, c.course_name;
+
+select s.student_name, e.enrollment_id, e.fee_paid from enrollments e right join students s on 
+e.student_id = s.student_id;
+
+select student_name, city from students where city = 'Theni' union select student_name,city from students
+where city = 'Chennai';
+
+select course_name, course_fee from courses where course_fee > (select avg(course_fee) from courses);
+
+select c.course_name, c.course_fee from courses c where c.course_id in (select e.course_id from enrollments e where e.score >= 90);
+
+select s.student_name, c.course_name, c.course_fee, e.fee_paid from students s join enrollments e on 
+s.student_id = e.student_id join courses c on e.course_id = c.course_id where e.fee_paid < c.course_fee;
+
+select student_id, count(*) as total_courses, sum(fee_paid) as total_paid from enrollments group by student_id 
+having count(*) > 1;
+
+select c.course_name, avg(e.score) as avg_score from courses c join enrollments e on c.course_id = e.course_id 
+group by c.course_id, c.course_name having avg(e.score) >= 70;
+
+select enrollment_id, student_id, score, rank() over (order by score desc) as score_rank from 
+enrollments where score is not null;
+
+select course_id, score, dense_rank() over (partition by course_id order by score desc) as course_rank 
+from enrollments where score is not null;
+
+select student_id, enrollment_date, row_number() over (partition by student_id order by enrollment_date) 
+as registration_no from enrollments;
+
+select course_id, score, lag(score) over (partition by course_id order by enrollment_date) as previous_score 
+from enrollments where score is not null;
+
+select student_id, enrollment_date, lead(enrollment_date) over (partition by student_id order by enrollment_date) 
+as next_enrollment_date from enrollments;
+
+select course_id, score, first_value(score) over (partition by course_id order by score desc) as highest_score 
+from enrollments where score is not null;
+
+select enrollment_id, course_id, fee_paid, sum(fee_paid) over (partition by course_id order by enrollment_date)
+as running_total from enrollments;
+
+select enrollment_id, enrollment_status, case when enrollment_status = 'Completed' then 'Finished' when
+ enrollment_status = 'Dropped' then 'Stopped' else 'In Progress' end as status_result from enrollments;
+
+select course_name, course_fee, case when course_fee >= 10000 then 'High Fee' when course_fee >= 7000 then 
+'Medium Fee' else 'Low Fee' end as fee_category from courses;
+
+select c.course_name, c.category, count(e.enrollment_id) as total_enrollments, sum(e.fee_paid) as total_collection, avg(e.score)
+ as avg_score from courses c join enrollments e on c.course_id = e.course_id group by c.course_id, c.course_name, c.category 
+ having count(e.enrollment_id) >= 5 order by total_collection desc;
+ 
+ 
